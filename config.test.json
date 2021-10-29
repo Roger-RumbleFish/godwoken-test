@@ -1,0 +1,34 @@
+{
+    "env": "test",
+    "deployer": "0xd6a9667ae786bdaf6369d42d7847b0368a53a8d6b77c8a2c58f39ea2233fb3f3",
+    "nervos": {
+      "ckb": {
+        "url": "http://localhost:8114"
+      },
+      "godwoken": {
+        "rpcUrl": "http://localhost:8119",
+        "networkId": "0xfa309"
+      },
+      "indexer": {
+        "url": "http://localhost:8116"
+      },
+      "rollup_type_hash": "0xd8e81522b747cba430ad442787412fb7413aa2189bc7cc4e53762dff02acd6f9",
+      "rollup_type_script": {
+        "code_hash": "0xbd2c0ce86b3a887fb7b072fcb6c714e110ab60bcb67cbf65976f32e1a8ef1b49",
+        "hashType": "type",
+        "args": "0x1436e3feefd3b55971b29c0e17b33b8c71d7fb9fb5a748779383931e94eefe50"
+      },
+      "eth_account_lock_hash": "0xe8bb99adf14fbe8394ff8562ac990445fd51f34e29216a41d514d80af9ce32cf",
+      "deposit_lock_script_type_hash": "0xc00a884372dfc0778a87727b5a3597f65e1198939aa60aaa85368e6dce4cb4ea",
+      "portal_wallet_lock_hash": "0x58c5f491aba6d61678b7cf7edf4910b1f5e00ec0cde2f42e0abb4fd9aff25a63"
+    },
+    "ethereum": {
+      "networkId": "0x4",
+      "fallback": {
+        "rpcUrl": "",
+        "infura": {
+          "apiKey": "808015861a3048648a41e56b23038945"
+        }
+      }
+    }
+  }

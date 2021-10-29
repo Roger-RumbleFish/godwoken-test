@@ -1,0 +1,47 @@
+{
+  "name": "@nervos-lending/lending-contracts",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "prebuild": "rm -rf ./dist; rm -rf ./artifacts; yarn hardhat compile",
+    "build": "tsc --project tsconfig.build.json",
+    "postbuild": "copyfiles -u 1 \"src/**/*.d.ts\" dist",
+    "clean:build": "rm -rf ./build",
+
+    "deploy": "yarn ts-node scripts/godwoken/deploy.ts",
+    
+    "deploy-dev": "yarn deploy-tokens; yarn mint-tokens; yarn deploy",
+    "deploy-tokens": "yarn ts-node scripts/godwoken/deploy-test-tokens.ts",
+    "mint-tokens": "yarn ts-node scripts/helpers/mint_tokens.ts"
+  },
+  "dependencies": {
+    "@polyjuice-provider/ethers": "^0.0.1-rc8",
+    "nervos-godwoken-integration": "^0.0.12"
+  },
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.2",
+    "@openzeppelin/contracts": "^4.2.0",
+    "@typechain/ethers-v5": "^7.2.0",
+    "@typechain/hardhat": "^2.3.1",
+    "copyfiles": "^2.4.1",
+    "ethers": "^5.4.0",
+    "ganache-cli": "^6.12.2",
+    "hardhat": "^2.6.6",
+    "ts-node": "^10.0.0",
+    "typechain": "^5.2.0",
+    "typescript": "^4.2.4",
+    "web3": "^1.6.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nervos-lending/lending-contracts.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
+}
