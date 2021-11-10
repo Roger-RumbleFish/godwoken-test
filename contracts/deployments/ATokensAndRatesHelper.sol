@@ -66,9 +66,9 @@ contract ATokensAndRatesHelper is Ownable {
     }
   }
 
-  function configureReserves(ConfigureReserveInput[] calldata inputParams) external onlyOwner returns (address) {
+  function configureReserves(ConfigureReserveInput[] calldata inputParams) external onlyOwner {
     LendingPoolConfigurator configurator = LendingPoolConfigurator(poolConfigurator);
-    address zwrotka = address(0);
+
     for (uint256 i = 0; i < inputParams.length; i++) {
       configurator.configureReserveAsCollateral(
         inputParams[i].asset,
@@ -85,6 +85,5 @@ contract ATokensAndRatesHelper is Ownable {
       }
       configurator.setReserveFactor(inputParams[i].asset, inputParams[i].reserveFactor);
     }
-    return zwrotka;
   }
 }

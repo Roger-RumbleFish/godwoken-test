@@ -251,9 +251,6 @@ interface ILendingPool {
    **/
   function swapBorrowRateMode(address asset, uint256 rateMode) external;
 
-
-  function test() external returns (address);
-
   /**
    * @dev Rebalances the stable interest rate of a user to the current stable rate defined on the reserve.
    * - Users can be rebalanced if the following conditions are satisfied:

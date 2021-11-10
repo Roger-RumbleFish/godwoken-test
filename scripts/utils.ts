@@ -1,5 +1,5 @@
-import { Overrides, providers, Wallet } from 'ethers';
-
+import { Overrides, providers } from 'ethers';
+import { ethers } from 'hardhat';
 import { AddressTranslator } from 'nervos-godwoken-integration';
 
 import { PolyjuiceJsonRpcProvider, PolyjuiceWallet } from '@polyjuice-provider/ethers';
@@ -7,6 +7,7 @@ import { PolyjuiceHttpProvider } from '@polyjuice-provider/web3';
 
 import Config from '../config.json';
 import { tEthereumAddress } from '../helpers/types';
+import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
 
 if (!Config.deployer) {
   throw new Error('Deployer private key missing in config.json');
@@ -58,6 +59,38 @@ export const translateAddress = (address: string) =>
   addressTranslator.ethAddressToGodwokenShortAddress(address);
 
 export const deployer = new PolyjuiceWallet(DEPLOYER_PRIVATE_KEY, polyjuiceConfig, provider);
+
+export type Deployer = PolyjuiceWallet | SignerWithAddress;
+
+export enum LendingContracts {
+  ERC20Mint = 'ERC20_test',
+  Registry = 'LendingPoolAddressesProviderRegistry',
+  AddressProvider = 'LendingPoolAddressesProvider',
+  LendingPool = 'LendingPool',
+  Configurator = 'LendingPoolConfigurator',
+  LibraryReserveLogic = 'ReserveLogic',
+  LibraryGenericLogic = 'GenericLogic',
+  LibraryValidationLogic = 'ValidationLogic',
+  AToken = 'AToken',
+  ATokensAndRatesHelper = 'ATokensAndRatesHelper',
+  StableDebtToken = 'StableDebtToken',
+  VariableDebtToken = 'VariableDebtToken',
+  OracleBandProvider = 'BandOracleProvider',
+  OracleBand = 'BandOracle',
+  DataProvider = 'AaveProtocolDataProvider',
+  RateStrategy = 'DefaultReserveInterestRateStrategy',
+  CollateralManager = 'LendingPoolCollateralManager',
+}
+
+export const getDeployer = async (network?: string): Promise<Deployer> => {
+  if (network && network === 'godwoken') {
+    return deployer;
+  }
+
+  const [owner] = await ethers.getSigners();
+
+  return owner;
+};
 
 export const connectRPC = (privateKey: string, config: typeof Config) => {
   const polyjuiceConfig = {

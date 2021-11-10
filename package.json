@@ -8,25 +8,32 @@
     "dist"
   ],
   "scripts": {
-    "prebuild": "rm -rf ./dist; rm -rf ./artifacts; yarn hardhat compile",
+    "build:contracts": "rm -rf ./dist; rm -rf ./artifacts; yarn hardhat compile",
+
+    "prebuild": "yarn move:config; yarn move:contracts; yarn build:contracts",
     "build": "tsc --project tsconfig.build.json",
     "postbuild": "copyfiles -u 1 \"src/**/*.d.ts\" dist",
+
+    "predeploy": "yarn build",
+    "deploy": "yarn hardhat run --network godwoken scripts/deploy.ts",
+
     "clean:build": "rm -rf ./build",
 
-    "deploy": "yarn ts-node scripts/godwoken/deploy.ts",
-    
-    "deploy-dev": "yarn deploy-tokens; yarn mint-tokens; yarn deploy",
-    "deploy-tokens": "yarn ts-node scripts/godwoken/deploy-test-tokens.ts",
-    "mint-tokens": "yarn ts-node scripts/helpers/mint_tokens.ts"
+    "move:config": "cp config.json ./src",
+
+    "move:contracts": "cp contracts.json ./src",
+    "move:contracts:godwoken": "cp contracts.godwoken.json  contracts.json"
   },
   "dependencies": {
     "@polyjuice-provider/ethers": "^0.0.1-rc8",
+    "@polyjuice-provider/web3": "^0.0.1-rc8",
     "nervos-godwoken-integration": "^0.0.12"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",
     "@openzeppelin/contracts": "^4.2.0",
     "@typechain/ethers-v5": "^7.2.0",
+    "@types/jest": "^27.0.2",
     "@typechain/hardhat": "^2.3.1",
     "copyfiles": "^2.4.1",
     "ethers": "^5.4.0",

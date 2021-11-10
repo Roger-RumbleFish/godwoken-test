@@ -1,19 +1,26 @@
-import { BigNumberish, Wallet } from 'ethers';
-import { ZERO_ADDRESS } from '../../helpers/constants';
-import { iMultiPoolsAssets, IReserveParams, tEthereumAddress } from '../../helpers/types';
-import NervosConfig from '../../markets/nervos';
-import { AaveProtocolDataProvider, LendingPoolAddressesProvider } from '../../src/contracts';
-import { waitForTx } from '../../src/utils';
+import { BigNumberish, Wallet } from "ethers";
+import { ZERO_ADDRESS } from "../../helpers/constants";
+import {
+  iMultiPoolsAssets,
+  IReserveParams,
+  tEthereumAddress,
+} from "../../helpers/types";
+import NervosConfig from "../../markets/nervos";
+import {
+  AaveProtocolDataProvider,
+  LendingPoolAddressesProvider,
+} from "../../src/contracts";
+import { waitForTx } from "../../src/utils";
 import {
   connectLendingPoolAddressProvider,
   connectLendingPoolConfigurator,
-} from '../connects/lendingPool';
-import { connectProtocolDataProvider } from '../connects/misc';
-import { connectATokensAndRatesHelper } from '../connects/tokens';
-import { DefaultReserveInterestRateStrategyFactory } from '../factories/lendingPool';
-import { chunk } from '../utils';
-import { deployLendingPoolCollateralManager } from './deploy-lending-pool-collateral-manager';
-import { waitFor } from './deploy-lending-pools';
+} from "../connects/lendingPool";
+import { connectProtocolDataProvider } from "../connects/misc";
+import { connectATokensAndRatesHelper } from "../connects/tokens";
+import { DefaultReserveInterestRateStrategyFactory } from "../factories/lendingPool";
+import { chunk } from "../utils";
+import { deployLendingPoolCollateralManager } from "./deploy-lending-pool-collateral-manager";
+import { waitFor } from "./deploy-lending-pools";
 
 const deployRateStrategy = async (
   args: [tEthereumAddress, string, string, string, string, string, string],
@@ -83,10 +90,12 @@ const initReservesByHelper = async (
   const reserves = Object.entries(reservesParams);
 
   for (let [symbol, params] of reserves) {
-    console.log('starting to deploy reserves');
+    console.log("starting to deploy reserves");
 
     if (!tokenAddresses[symbol]) {
-      console.log(`- Skipping init of ${symbol} due token address is not set at markets config`);
+      console.log(
+        `- Skipping init of ${symbol} due token address is not set at markets config`
+      );
       continue;
     }
 
@@ -111,13 +120,17 @@ const initReservesByHelper = async (
         stableRateSlope2,
       ];
 
-      console.log('starting to deploy reserves', strategy.name, rateStrategies[strategy.name]);
+      console.log(
+        "starting to deploy reserves",
+        strategy.name,
+        rateStrategies[strategy.name]
+      );
       strategyAddresses[strategy.name] = await deployRateStrategy(
         rateStrategies[strategy.name],
         deployer
       );
 
-      console.log('deployed', strategyAddresses[strategy.name]);
+      console.log("deployed", strategyAddresses[strategy.name]);
 
       // // This causes the last strategy to be printed twice, once under "DefaultReserveInterestRateStrategy"
       // // and once under the actual `strategyASSET` key.
@@ -143,7 +156,7 @@ const initReservesByHelper = async (
       variableDebtTokenSymbol: `variableDebt${symbolPrefix}${symbol}`,
       stableDebtTokenName: `${stableDebtTokenNamePrefix} ${symbol}`,
       stableDebtTokenSymbol: `stableDebt${symbolPrefix}${symbol}`,
-      params: '0x10', // was hardcoded in Aave as well but inside a method
+      params: "0x10", // was hardcoded in Aave as well but inside a method
     });
   }
 
@@ -151,7 +164,10 @@ const initReservesByHelper = async (
   const chunkedSymbols = chunk(reserveSymbols, initChunks);
   const chunkedInitInputParams = chunk(initInputParams, initChunks);
 
-  const configurator = await connectLendingPoolConfigurator(poolConfigAddress, deployer);
+  const configurator = await connectLendingPoolConfigurator(
+    poolConfigAddress,
+    deployer
+  );
   console.log(`initing started`, { test: chunkedInitInputParams[0][0] });
   // console.log(`Wykonuje`);
   // const tttt = await configurator.batchInitReserve(chunkedInitInputParams[0]);
@@ -180,16 +196,26 @@ const initReservesByHelper = async (
   // console.log(`  - Reserve ready for: ${tx3}`);
   // console.log(`- Reserves initialization in ${chunkedInitInputParams.length} txs`);
 
-  for (let chunkIndex = 0; chunkIndex < chunkedInitInputParams.length; chunkIndex++) {
+  for (
+    let chunkIndex = 0;
+    chunkIndex < chunkedInitInputParams.length;
+    chunkIndex++
+  ) {
+    console.log("batch init");
     const tx3 = await waitForTx(
-      await configurator.batchInitReserve([chunkedInitInputParams[chunkIndex][0]], {
-        gasPrice: 0,
-        gasLimit: 12000000,
-      })
+      await configurator.batchInitReserve(
+        [chunkedInitInputParams[chunkIndex][0]],
+        {
+          gasPrice: 0,
+          gasLimit: 12000000,
+        }
+      )
     );
 
-    console.log(`  - Reserve ready for: ${chunkedSymbols[chunkIndex].join(', ')}`);
-    console.log('    * gasUsed', tx3.gasUsed.toString());
+    console.log(
+      `  - Reserve ready for: ${chunkedSymbols[chunkIndex].join(", ")}`
+    );
+    console.log("    * gasUsed", tx3.gasUsed.toString());
   }
 };
 
@@ -203,9 +229,15 @@ const configureReservesByHelper = async (
   poolCOnfig: tEthereumAddress,
   deployer: Wallet
 ) => {
-  console.log('config reserve by helpers zaczynam');
-  const addressProvider = connectLendingPoolAddressProvider(addressProviderAddress, deployer);
-  const atokenAndRatesDeployer = connectATokensAndRatesHelper(aTokensAndRatesHelper, deployer);
+  console.log("config reserve by helpers zaczynam");
+  const addressProvider = connectLendingPoolAddressProvider(
+    addressProviderAddress,
+    deployer
+  );
+  const atokenAndRatesDeployer = connectATokensAndRatesHelper(
+    aTokensAndRatesHelper,
+    deployer
+  );
 
   const tokens: string[] = [];
   const symbols: string[] = [];
@@ -237,20 +269,21 @@ const configureReservesByHelper = async (
       );
       continue;
     }
-    if (baseLTVAsCollateral === '-1') continue;
+    if (baseLTVAsCollateral === "-1") continue;
 
     const assetAddressIndex = Object.keys(tokenAddresses).findIndex(
       (value) => value === assetSymbol
     );
-    const [, tokenAddress] = (Object.entries(tokenAddresses) as [string, string][])[
-      assetAddressIndex
-    ];
-    const { usageAsCollateralEnabled: alreadyEnabled } = await helpers.getReserveConfigurationData(
-      tokenAddress
-    );
+    const [, tokenAddress] = (
+      Object.entries(tokenAddresses) as [string, string][]
+    )[assetAddressIndex];
+    const { usageAsCollateralEnabled: alreadyEnabled } =
+      await helpers.getReserveConfigurationData(tokenAddress);
 
     if (alreadyEnabled) {
-      console.log(`- Reserve ${assetSymbol} is already enabled as collateral, skipping`);
+      console.log(
+        `- Reserve ${assetSymbol} is already enabled as collateral, skipping`
+      );
       continue;
     }
     // Push data
@@ -269,27 +302,36 @@ const configureReservesByHelper = async (
     symbols.push(assetSymbol);
   }
   if (tokens.length) {
-    console.log('addressProvider.setPoolAdmin');
+    console.log("addressProvider.setPoolAdmin");
     // Set aTokenAndRatesDeployer as temporal admin
-    await waitForTx(await addressProvider.setPoolAdmin(atokenAndRatesDeployer.address));
+    await waitForTx(
+      await addressProvider.setPoolAdmin(atokenAndRatesDeployer.address)
+    );
     // TODO rmeove
-    const confggggg = await connectLendingPoolConfigurator(poolCOnfig, deployer);
+    const confggggg = await connectLendingPoolConfigurator(
+      poolCOnfig,
+      deployer
+    );
     console.log(
-      'sprawdzam czy zadzialalao',
+      "sprawdzam czy zadzialalao",
       await addressProvider.callStatic.getPoolAdmin(),
       atokenAndRatesDeployer.address,
       poolCOnfig,
       await confggggg.callStatic.getPoolAdmin()
     );
-    console.log('addressProvider.setPoolAdmin DONE');
+    console.log("addressProvider.setPoolAdmin DONE");
     // Deploy init per chunks
     const enableChunks = 20;
     const chunkedSymbols = chunk(symbols, enableChunks);
     const chunkedInputParams = chunk(inputParams, enableChunks);
 
     console.log(`- Configure reserves in ${chunkedInputParams.length} txs`);
-    console.log('params', inputParams[0]);
-    for (let chunkIndex = 0; chunkIndex < chunkedInputParams.length; chunkIndex++) {
+    console.log("params", inputParams[0]);
+    for (
+      let chunkIndex = 0;
+      chunkIndex < chunkedInputParams.length;
+      chunkIndex++
+    ) {
       // const res = await atokenAndRatesDeployer.callStatic.configureReserves(
       //   chunkedInputParams[chunkIndex],
       //   {
@@ -300,12 +342,15 @@ const configureReservesByHelper = async (
 
       //console.log('messanger', res);
       await waitForTx(
-        await atokenAndRatesDeployer.configureReserves(chunkedInputParams[chunkIndex], {
-          gasLimit: 1200000000,
-          gasPrice: 0,
-        })
+        await atokenAndRatesDeployer.configureReserves(
+          chunkedInputParams[chunkIndex],
+          {
+            gasLimit: 1200000000,
+            gasPrice: 0,
+          }
+        )
       );
-      console.log(`  - Init for: ${chunkedSymbols[chunkIndex].join(', ')}`);
+      console.log(`  - Init for: ${chunkedSymbols[chunkIndex].join(", ")}`);
     }
     // Set deployer back as admin
     await waitForTx(await addressProvider.setPoolAdmin(admin));
@@ -334,18 +379,24 @@ export async function deployInitialization(
     IncentivesController,
   } = NervosConfig;
 
-  const addressProviderContract = connectLendingPoolAddressProvider(addressProvider, deployer);
-  const testHelpers = await connectProtocolDataProvider(protocolDataProviderAddress, deployer);
+  const addressProviderContract = connectLendingPoolAddressProvider(
+    addressProvider,
+    deployer
+  );
+  const testHelpers = await connectProtocolDataProvider(
+    protocolDataProviderAddress,
+    deployer
+  );
 
   const admin = await addressProviderContract.getPoolAdmin();
   const oracle = await addressProviderContract.getPriceOracle();
 
   if (!ReserveAssets) {
-    throw 'Reserve assets is undefined. Check ReserveAssets configuration at config directory';
+    throw "Reserve assets is undefined. Check ReserveAssets configuration at config directory";
   }
 
   const treasuryAddress = ReserveFactorTreasuryAddress;
-  console.log('initReservesByHelper');
+  console.log("initReservesByHelper");
   await initReservesByHelper(
     addressProviderContract,
     ReservesConfig,
@@ -363,9 +414,9 @@ export async function deployInitialization(
     variableTokenAddress,
     deployer
   );
-  console.log('initReservesByHelper Done');
+  console.log("initReservesByHelper Done");
 
-  console.log('configureReservesByHelper');
+  console.log("configureReservesByHelper");
 
   await configureReservesByHelper(
     ReservesConfig,
@@ -378,26 +429,30 @@ export async function deployInitialization(
     deployer
   );
 
-  console.log('configureReservesByHelper Done');
+  console.log("configureReservesByHelper Done");
 
   let collateralManagerAddress = LendingPoolCollateralManager;
 
   if (!collateralManagerAddress || collateralManagerAddress === ZERO_ADDRESS) {
-    collateralManagerAddress = await deployLendingPoolCollateralManager(deployer);
+    collateralManagerAddress = await deployLendingPoolCollateralManager(
+      deployer
+    );
   }
   // Seems unnecessary to register the collateral manager in the JSON db
 
   console.log(
-    '\tSetting lending pool collateral manager implementation with address',
+    "\tSetting lending pool collateral manager implementation with address",
     collateralManagerAddress
   );
 
   await waitForTx(
-    await addressProviderContract.setLendingPoolCollateralManager(collateralManagerAddress)
+    await addressProviderContract.setLendingPoolCollateralManager(
+      collateralManagerAddress
+    )
   );
 
   console.log(
-    '\tSetting AaveProtocolDataProvider at AddressesProvider at id: 0x01',
+    "\tSetting AaveProtocolDataProvider at AddressesProvider at id: 0x01",
     collateralManagerAddress
   );
 
@@ -408,7 +463,7 @@ export async function deployInitialization(
 
   await waitForTx(
     await addressProviderContract.setAddress(
-      '0x0100000000000000000000000000000000000000000000000000000000000000',
+      "0x0100000000000000000000000000000000000000000000000000000000000000",
       protocolDataProvider.address
     )
   );

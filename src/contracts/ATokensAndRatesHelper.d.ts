@@ -238,7 +238,7 @@ export class ATokensAndRatesHelper extends BaseContract {
         borrowingEnabled: boolean;
       }[],
       overrides?: CallOverrides
-    ): Promise<string>;
+    ): Promise<void>;
 
     initDeployment(
       inputParams: {

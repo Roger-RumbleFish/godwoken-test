@@ -30,7 +30,6 @@ interface LendingPoolConfiguratorInterface extends ethers.utils.Interface {
     "enableBorrowingOnReserve(address,bool)": FunctionFragment;
     "enableReserveStableRate(address)": FunctionFragment;
     "freezeReserve(address)": FunctionFragment;
-    "getPoolAdmin()": FunctionFragment;
     "initialize(address)": FunctionFragment;
     "setPoolPause(bool)": FunctionFragment;
     "setReserveFactor(address,uint256)": FunctionFragment;
@@ -95,10 +94,6 @@ interface LendingPoolConfiguratorInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "freezeReserve",
     values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getPoolAdmin",
-    values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "initialize", values: [string]): string;
   encodeFunctionData(
@@ -192,10 +187,6 @@ interface LendingPoolConfiguratorInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "freezeReserve",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getPoolAdmin",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
@@ -460,10 +451,6 @@ export class LendingPoolConfigurator extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    getPoolAdmin(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     initialize(
       provider: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -595,10 +582,6 @@ export class LendingPoolConfigurator extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  getPoolAdmin(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   initialize(
     provider: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -721,8 +704,6 @@ export class LendingPoolConfigurator extends BaseContract {
 
     freezeReserve(asset: string, overrides?: CallOverrides): Promise<void>;
 
-    getPoolAdmin(overrides?: CallOverrides): Promise<string>;
-
     initialize(provider: string, overrides?: CallOverrides): Promise<void>;
 
     setPoolPause(val: boolean, overrides?: CallOverrides): Promise<void>;
@@ -731,7 +712,7 @@ export class LendingPoolConfigurator extends BaseContract {
       asset: string,
       reserveFactor: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<string>;
+    ): Promise<void>;
 
     setReserveInterestRateStrategyAddress(
       asset: string,
@@ -1080,10 +1061,6 @@ export class LendingPoolConfigurator extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    getPoolAdmin(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     initialize(
       provider: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -1213,10 +1190,6 @@ export class LendingPoolConfigurator extends BaseContract {
 
     freezeReserve(
       asset: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    getPoolAdmin(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

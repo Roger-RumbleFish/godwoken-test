@@ -47,7 +47,6 @@ interface LendingPoolInterface extends ethers.utils.Interface {
     "setReserveInterestRateStrategyAddress(address,address)": FunctionFragment;
     "setUserUseReserveAsCollateral(address,bool)": FunctionFragment;
     "swapBorrowRateMode(address,uint256)": FunctionFragment;
-    "test()": FunctionFragment;
     "withdraw(address,uint256,address)": FunctionFragment;
   };
 
@@ -146,7 +145,6 @@ interface LendingPoolInterface extends ethers.utils.Interface {
     functionFragment: "swapBorrowRateMode",
     values: [string, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "test", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "withdraw",
     values: [string, BigNumberish, string]
@@ -238,7 +236,6 @@ interface LendingPoolInterface extends ethers.utils.Interface {
     functionFragment: "swapBorrowRateMode",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "test", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "withdraw", data: BytesLike): Result;
 
   events: {
@@ -583,10 +580,6 @@ export class LendingPool extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    test(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     withdraw(
       asset: string,
       amount: BigNumberish,
@@ -771,10 +764,6 @@ export class LendingPool extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  test(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   withdraw(
     asset: string,
     amount: BigNumberish,
@@ -952,8 +941,6 @@ export class LendingPool extends BaseContract {
       rateMode: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
-
-    test(overrides?: CallOverrides): Promise<string>;
 
     withdraw(
       asset: string,
@@ -1357,10 +1344,6 @@ export class LendingPool extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    test(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     withdraw(
       asset: string,
       amount: BigNumberish,
@@ -1514,10 +1497,6 @@ export class LendingPool extends BaseContract {
     swapBorrowRateMode(
       asset: string,
       rateMode: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    test(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

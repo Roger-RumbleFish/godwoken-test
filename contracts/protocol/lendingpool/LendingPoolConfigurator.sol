@@ -59,13 +59,10 @@ contract LendingPoolConfigurator is VersionedInitializable, ILendingPoolConfigur
     pool = ILendingPool(addressesProvider.getLendingPool());
   }
 
-    function getPoolAdmin() public returns (address) {
-     return addressesProvider.getPoolAdmin();
-  }
-
   /**
    * @dev Initializes reserves in batch
-   **/
+   
+   **/ 
   function batchInitReserve(InitReserveInput[] calldata input) external onlyPoolAdmin {
     ILendingPool cachedPool = pool;
     for (uint256 i = 0; i < input.length; i++) {
@@ -426,14 +423,13 @@ contract LendingPoolConfigurator is VersionedInitializable, ILendingPoolConfigur
    * @param asset The address of the underlying asset of the reserve
    * @param reserveFactor The new reserve factor of the reserve
    **/
-  function setReserveFactor(address asset, uint256 reserveFactor) external returns (address) {
+  function setReserveFactor(address asset, uint256 reserveFactor) external {
   
     DataTypes.ReserveConfigurationMap memory currentConfig = pool.getConfiguration(asset);
 
     currentConfig.setReserveFactor(reserveFactor);
-    // pool.setConfiguration(asset, currentConfig.data); // TODO uncoment this to go deeper in stack
+    pool.setConfiguration(asset, currentConfig.data); // TODO uncoment this to go deeper in stack
     emit ReserveFactorChanged(asset, reserveFactor);
-    return pool.test();
    }
 
   /**

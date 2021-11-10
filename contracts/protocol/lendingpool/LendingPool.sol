@@ -831,10 +831,6 @@ onlyLendingPoolConfigurator
     _reserves[asset].configuration.data = configuration;
   }
 
-  function test() external override onlyLendingPoolConfigurator returns (address) {
-    return address(0);// _addressesProvider.getLendingPoolConfigurator();
-  }
-
   /**
    * @dev Set the _pause state of a reserve
    * - Only callable by the LendingPoolConfigurator contract
