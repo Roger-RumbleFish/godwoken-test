@@ -15,3 +15,5 @@ src/**/*.json
 
 cache
 artifacts
+
+contracts.godwoken.json
