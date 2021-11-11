@@ -48,6 +48,24 @@ export async function deployTestTokens(deployer: Deployer) {
       decimals: 18,
       initialValue: BigNumber.from('100000000000000000000000000'),
     },
+    {
+      name: 'USD1 Coin',
+      symbol: 'USDC1',
+      decimals: 6,
+      initialValue: BigNumber.from('10000000000000'),
+    },
+    {
+      name: 'Tether USD',
+      symbol: 'USDT1',
+      decimals: 6,
+      initialValue: BigNumber.from('10000000000000'),
+    },
+    {
+      name: 'Dai',
+      symbol: 'DAI1',
+      decimals: 18,
+      initialValue: BigNumber.from('100000000000000000000000000'),
+    }
   ];
 
   const deployedTokens: { symbol: string; address: string }[] = [];

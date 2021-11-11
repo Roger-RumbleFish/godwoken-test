@@ -182,7 +182,7 @@ const initReservesByHelper = async (
   for (let chunkIndex = 0; chunkIndex < chunkedInitInputParams.length; chunkIndex++) {
     const receipt = await waitForTx(
       await configurator.batchInitReserve(chunkedInitInputParams[chunkIndex], {
-        gasLimit: 2500000,
+        gasLimit: 12500000,
       })
     );
 
