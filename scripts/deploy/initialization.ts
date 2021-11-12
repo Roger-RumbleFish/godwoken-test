@@ -288,7 +288,7 @@ const configureReservesByHelper = async (
     for (let chunkIndex = 0; chunkIndex < chunkedInputParams.length; chunkIndex++) {
       await waitForTx(
         await atokenAndRatesDeployer.configureReserves(chunkedInputParams[chunkIndex], {
-          gasLimit: 500000,
+          gasLimit: 5000000,
         })
       );
       console.log(`  - Init for: ${chunkedSymbols[chunkIndex].join(', ')}`);
