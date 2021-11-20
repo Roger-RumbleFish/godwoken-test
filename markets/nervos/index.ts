@@ -26,18 +26,45 @@ export const getNervosConfig = (tokens?: { [key: string]: string }) => {
     ReservesConfig: {
       DAI: strategyDAI,
       USDC: strategyUSDC,
-      USDT: strategyUSDT,
+      // USDT: strategyUSDT,
+      // DAI1: strategyDAI,
+      // USDC1: strategyUSDC,
+      // USDT1: strategyUSDT,
+      // DAI2: strategyDAI,
+      // USDC2: strategyUSDC,
+      // USDT2: strategyUSDT,
+      // DAI3: strategyDAI,
+      // USDC3: strategyUSDC,
+      // USDT3: strategyUSDT,
     },
     ReserveAssets: {
       DAI: myTokens['DAI'],
       USDC: myTokens['USDC'],
-      USDT: myTokens['USDT'],
+      // USDT: myTokens['USDT'],
+      // DAI1: myTokens['DAI1'],
+      // USDC1: myTokens['USDC1'],
+      // USDT1: myTokens['USDT1'],
+      // DAI2: myTokens['DAI2'],
+      // USDC2: myTokens['USDC2'],
+      // USDT2: myTokens['USDT2'],
+      // DAI3: myTokens['DAI3'],
+      // USDC3: myTokens['USDC3'],
+      // USDT3: myTokens['USDT3']
     },
     ChainlinkAggregator: {
       DAI: ZERO_ADDRESS,
       USDC: ZERO_ADDRESS,
-      USDT: ZERO_ADDRESS,
+      // USDT: ZERO_ADDRESS,
       USD: ZERO_ADDRESS,
+      // DAI1: ZERO_ADDRESS,
+      // USDC1: ZERO_ADDRESS,
+      // USDT1: ZERO_ADDRESS,
+      // DAI2: ZERO_ADDRESS,
+      // USDC2: ZERO_ADDRESS,
+      // USDT2: ZERO_ADDRESS,
+      // DAI3: ZERO_ADDRESS,
+      // USDC3: ZERO_ADDRESS,
+      // USDT3: ZERO_ADDRESS
     },
     LendingRateOracleRatesCommon: {
       DAI: {
@@ -46,9 +73,36 @@ export const getNervosConfig = (tokens?: { [key: string]: string }) => {
       USDC: {
         borrowRate: oneRay.multipliedBy(0.039).toFixed(),
       },
-      USDT: {
-        borrowRate: oneRay.multipliedBy(0.035).toFixed(),
-      },
+      // USDT: {
+      //   borrowRate: oneRay.multipliedBy(0.035).toFixed(),
+      // },
+      // DAI1: {
+      //   borrowRate: oneRay.multipliedBy(0.039).toFixed(),
+      // },
+      // USDC1: {
+      //   borrowRate: oneRay.multipliedBy(0.039).toFixed(),
+      // },
+      // USDT1: {
+      //   borrowRate: oneRay.multipliedBy(0.035).toFixed(),
+      // },
+      // DAI2: {
+      //   borrowRate: oneRay.multipliedBy(0.039).toFixed(),
+      // },
+      // USDC2: {
+      //   borrowRate: oneRay.multipliedBy(0.039).toFixed(),
+      // },
+      // USDT2: {
+      //   borrowRate: oneRay.multipliedBy(0.035).toFixed(),
+      // },
+      // DAI3: {
+      //   borrowRate: oneRay.multipliedBy(0.039).toFixed(),
+      // },
+      // USDC3: {
+      //   borrowRate: oneRay.multipliedBy(0.039).toFixed(),
+      // },
+      // USDT3: {
+      //   borrowRate: oneRay.multipliedBy(0.035).toFixed(),
+      // }
     },
 
     OracleQuoteUnit: oneEther.toString(),

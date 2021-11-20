@@ -1,6 +1,6 @@
 {
   "env": "localhost",
-  "deployer": "0xd6a9667ae786bdaf6369d42d7847b0368a53a8d6b77c8a2c58f39ea2233fb3f3",
+  "deployer": "0x6cd5e7be2f6504aa5ae7c0c04178d8f47b7cfc63b71d95d9e6282f5b090431bf",
   "nervos": {
     "ckb": {
       "url": "http://localhost:8114"

@@ -3,6 +3,7 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
+    "useUnknownInCatchVariables": false,
     "isolatedModules": false,
     "module": "CommonJS",
     "moduleResolution": "node",
